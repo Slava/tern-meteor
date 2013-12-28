@@ -156,7 +156,19 @@
     "status": "fn() -> IMeteor.status.!ret",
     "reconnect": "fn()",
     "disconnect": "fn()",
-    "Collection": "fn(name: string, options?: IMeteor.Collection.options)",
+    "Collection": {
+      "!type": "fn(name: string, options?: IMeteor.Collection.options)",
+      "prototype": {
+        "find": "fn(selector?: ?, options?: Object) -> IMeteorCursor",
+        "findOne": "fn(selector: ?, options?: Object) -> ?",
+        "insert": "fn(doc: Object, callback?: Function) -> string",
+        "update": "fn(selector: ?, modifier: ?, options?: Object, callback?: Function)",
+        "remove": "fn(selector: ?, callback?: Function)",
+        "allow": "fn(options: Object) -> bool",
+        "deny": "fn(options: Object) -> bool",
+        "ObjectID": "fn(hexString?: string) -> Object"
+      }
+    },
     "user": "fn() -> IMeteorUser",
     "userId": "fn() -> string",
     "users": "IMeteorUserCollection",
@@ -180,16 +192,6 @@
     "Template": "fn()",
     "Router": "IMeteorRouter",
     "Errors": "IMeteorErrors"
-  },
-  "IMeteorCollection": {
-    "find": "fn(selector?: ?, options?: Object) -> IMeteorCursor",
-    "findOne": "fn(selector: ?, options?: Object) -> ?",
-    "insert": "fn(doc: Object, callback?: Function) -> string",
-    "update": "fn(selector: ?, modifier: ?, options?: Object, callback?: Function)",
-    "remove": "fn(selector: ?, callback?: Function)",
-    "allow": "fn(options: Object) -> bool",
-    "deny": "fn(options: Object) -> bool",
-    "ObjectID": "fn(hexString?: string) -> Object"
   },
   "IMeteorCursor": {
     "forEach": "fn(callback: Function)",
@@ -403,7 +405,6 @@
     "connect": "fn(url: string)"
   },
   "Meteor": "IMeteor",
-  "Collection": "IMeteorCollection",
   "Session": "IMeteorSession",
   "Deps": "IMeteorDeps",
   "Accounts": "IMeteorAccounts",
