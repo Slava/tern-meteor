@@ -171,7 +171,7 @@
     },
     "user": "fn() -> IMeteorUser",
     "userId": "fn() -> string",
-    "users": "IMeteorUserCollection",
+    "users": "IMeteor.Collection.prototype",
     "loggingIn": "fn() -> bool",
     "logout": "fn(callback?: Function)",
     "loginWithPassword": "fn(user: Object, password: string, callback?: Function)",
@@ -270,16 +270,6 @@
     "profile": "?",
     "services": "?",
     "createdAt": "number"
-  },
-  "IMeteorUserCollection": {
-    "find": "fn(selector?: ?, options?: Object) -> IMeteorCursor",
-    "findOne": "fn(selector: ?, options?: Object) -> IMeteorUser",
-    "insert": "fn(doc: IMeteorUser, callback?: Function) -> IMeteorUser",
-    "update": "fn(selector: ?, modifier: ?, options?: Object, callback?: Function)",
-    "remove": "fn(selector: ?, callback?: Function)",
-    "allow": "fn(options: Object) -> bool",
-    "deny": "fn(options: Object) -> bool",
-    "ObjectID": "fn(hexString?: string) -> Object"
   },
   "IMeteorAccounts": {
     "config": "fn(options: IMeteorAccounts.config.options)",
