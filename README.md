@@ -28,9 +28,9 @@ Installation for Sublime Text 2/3
 
 
 - install Package Control (https://sublime.wbond.net/installation)
-- install sublime-tern plugin (cmd+shift+p -> install package -> sublime-tern -> restart sublime)
+- install sublime-tern plugin (cmd+shift+p -> install package -> TernJS -> restart sublime)
 - `cd` to Sublime Text packages directory (`~/Library/Application Support/Sublime Text 3/Packages` on Mac OS X)
-- `cd sublime-tern/ternjs/plugin`
+- `cd TernJS/ternjs/plugin`
 - copy over meteor.js file here
 - create a new sublime project, save it, add files
 - edit project configuration (menu->project->edit project)
