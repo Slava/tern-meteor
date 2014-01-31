@@ -4,10 +4,15 @@ TernJS plugin: Meteor
 This is a plugin for [TernJS](http://ternjs.net) bringing support for
 [Meteor](https://www.meteor.com) JavaScript Framework.
 
-Videos: [for Sublime Text](https://www.youtube.com/watch?v=5cAHxpNEHTc), [for
-Vim](https://www.youtube.com/watch?v=TIE9ZOqlvFo).
+Checkout my presentation on Meteor Devshop 11: [Videos](https://www.youtube.com/watch?v=Lqcs6hPOcFw#t=6227) and [Slides](https://slid.es/slavakim/meteor).
+The mailing thread for this project is [here on meteor-talk](https://groups.google.com/forum/#!searchin/meteor-talk/tern/meteor-talk/b_yGWIqXl7Y/UYsGCGLWu7sJ).
 
-Supported features
+Gif Demos
+---
+
+TODO
+
+Supported features specific to Meteor
 ---
 
 - each file is wrapped in a scope
@@ -21,11 +26,13 @@ Todo features
 - some auto-completion based on Templates names would be nice
 - generate docs from docs.meteor.com
 - load all Meteor related JS files on the load of any file
+- parsing of handlebars template?
 
 
 Installation for Sublime Text 2/3
 ---
 
+**[Demo Video of Sublime Text](https://www.youtube.com/watch?v=5cAHxpNEHTc)**
 
 - install Package Control (https://sublime.wbond.net/installation)
 - install sublime-tern plugin (cmd+shift+p -> install package -> TernJS -> restart sublime)
@@ -36,6 +43,7 @@ Installation for Sublime Text 2/3
 - edit project configuration (menu->project->edit project)
 - edit the json file in this manner:
 
+```
     {
       "folders":
       [
@@ -49,10 +57,15 @@ Installation for Sublime Text 2/3
         }
       }
     }
-
+```
 
 Installation for Vim
 ---
+
+**[Demo Video of Vim](https://www.youtube.com/watch?v=TIE9ZOqlvFo)**
+
+You check out my Vim setup which is already optimized for Meteor development:
+[GitHub repo](https://github.com/Slava/vimrc). Or you can get it to your setup:
 
 - Install [tern-vim plugin](https://github.com/marijnh/tern_for_vim) with your
   favorite package manager for Vim.
@@ -62,19 +75,21 @@ Installation for Vim
 - In your Meteor project create a file `.tern-project` with the contents similar
   to:
 
+```
     {
       "libs": [
         "browser",
         "jquery",
         "underscore"
       ],
-      "loadEagerly": [ ],
+      "loadEagerly": [ "*.js", "*/*.js", "*/*/*.js", "*/*/*/*.js" ],
       "dontLoad": [ ".meteor" ],
       "plugins": {
         "meteor": {}
       }
     }
+```
 
-Note: ignore files in `.meteor` folder.
+Note: ignore files in `.meteor` folder. Load all JS if possible.
 
 
