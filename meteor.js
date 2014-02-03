@@ -29,6 +29,73 @@
       server: server
     };
 
+
+    // Load all packages
+    var glob = require('glob');
+    var acorn = require('acorn');
+    var walker = require('acorn/util/walk.js');
+    var fs = require('fs');
+    glob("packages/*/package.js", function (err, filesList) {
+      filesList.forEach(function (filename) {
+        fs.readFile(filename, 'utf8', function (err, file) {
+          var ast = acorn.parse(file);
+          var packageDependencies = [];
+          walker.simple(ast, {
+            CallExpression: function (expr) {
+              if (!expr.callee.object)
+                return;
+              if (expr.callee.object.name !== 'api')
+                return;
+              if (expr.callee.property.name === 'use') {
+                if (! expr.arguments.length)
+                  return;
+                // So now we have two types of call:
+                // api.use('Package', 'client', { weak: false }); and
+                // api.use(['Package1', 'Package2'], ['client', 'server'], {weak: true});
+                var pkg = expr.arguments[0];
+                var where = expr.arguments[1];
+                var opts = expr.arguments[2];
+
+                if (pkg.type === 'Literal')
+                  pkg = [pkg.value];
+                else if (pkg.type === 'ArrayExpression')
+                  pkg = pkg.elements.map(function (n) { return n.value; });
+                else
+                  pkg = [];
+
+                if (where === undefined)
+                  where = ['client', 'server'];
+                else if (where.type === 'Literal')
+                  if (where.value === 'both')
+                    where = ['client', 'server'];
+                  else
+                    where = [where.value];
+                else if (where.type === 'ArrayExpression')
+                  where = where.elements.map(function (n) { return n.value; });
+                else
+                  where = [];
+
+                if (opts !== undefined) {
+                  var opts_o = opts;
+                  opts = {};
+                  opts_o.properties.forEach(function (p) { opts[p.key.name] = p.value.value; });
+                } else opts = {};
+
+                pkg.forEach(function (p) {
+                  packageDependencies.push({
+                    name: p,
+                    where: where,
+                    opts: opts
+                  });
+                });
+              }
+            }
+          });
+          console.log('package dependencies of ', filename, packageDependencies);
+        });
+      });
+    });
+
     server.on("beforeLoad", function(file) {
       // Just building a wrapping scope for a file
       this._node.currentFile = resolvePath(server.options.projectDir + "/", file.name.replace(/\\/g, "/"));
@@ -41,7 +108,6 @@
     });
 
     server.on("reset", function() {
-      // XXX
     });
 
     return {defs: defs};
