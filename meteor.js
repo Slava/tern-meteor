@@ -18,17 +18,9 @@
   // Sync readFile
   var readFile = Future.wrap(fs.readFile.bind(fs), 2);
 
-  function resolvePath(base, path) {
-    if (path[0] == "/") return path;
-    var slash = base.lastIndexOf("/"), m;
-    if (slash >= 0) path = base.slice(0, slash + 1) + path;
-    while (m = /[^\/]*[^\/\.][^\/]*\/\.\.\//.exec(path))
-      path = path.slice(0, m.index) + path.slice(m.index + m[0].length);
-    return path.replace(/(^|[^\.])\.\//g, "$1");
-  }
-
   function buildWrappingScope(parent, origin, node) {
     var scope = new infer.Scope(parent);
+    scope.name = origin;
     return scope;
   }
 
@@ -162,15 +154,11 @@
     Fiber(main).run();
 
     server.on("beforeLoad", function(file) {
-      console.log('loading file', file.name, file.text.length);
       // Just building a wrapping scope for a file
-      this._node.currentFile = resolvePath(server.options.projectDir + "/", file.name.replace(/\\/g, "/"));
       file.scope = buildWrappingScope(file.scope, file.name, file.ast);
     });
 
     server.on("afterLoad", function(file) {
-      // XXX do we even need this stuff?
-      this._node.currentFile = null;
     });
 
     server.on("reset", function() {
