@@ -15,8 +15,8 @@
   var Future = require('fibers/future');
   var _ = require('underscore');
 
-  // Sync readFile in utf-8
-  var readFile = Future.wrap(fs.readFile.bind(fs, 'utf-8'), 1);
+  // Sync readFile
+  var readFile = Future.wrap(fs.readFile.bind(fs), 2);
 
   function resolvePath(base, path) {
     if (path[0] == "/") return path;
@@ -131,17 +131,38 @@
     };
 
 
-    // Load all packages
-    glob("packages/*/package.js", function (err, filesList) {
-      filesList.forEach(function (filename) {
-        fs.readFile(filename, 'utf8', function (err, file) {
-          var ast = acorn.parse(file);
-          console.log(JSON.stringify(getPackageInfo(ast), null, 2));
+    var main = function () {
+      // Load all packages
+      var globSync = Future.wrap(glob, 1);
+      var packageDefs = globSync("packages/*/package.js").wait();
+      packageDefs.forEach(function (filename) {
+        var packageJsContents = readFile(filename, 'utf-8').wait();
+        var packageName = filename.split('/')[1];
+        var ast = acorn.parse(packageJsContents);
+        getPackageInfo(ast).files.forEach(function (file) {
+          console.log('adding file ', file.path, '?')
+          // don't load non-js files
+          if (_.last(file.path.split('.')) !== 'js')
+            return;
+          var filepath = "packages/" + packageName + "/" + file.path;
+          server.addFile(filepath, readFile(filepath, "utf-8").wait());
         });
       });
-    });
+
+      var allJsFiles = globSync("**/*.js").wait();
+      var badPathRegexp = new RegExp("^(\.meteor|packages)\/.*$", "i");
+      allJsFiles.forEach(function (filename) {
+        if (badPathRegexp.test(filename))
+          return;
+        console.log('I should probably load ', filename, ' right?');
+        server.addFile(filename);
+      });
+    }
+
+    Fiber(main).run();
 
     server.on("beforeLoad", function(file) {
+      console.log('loading file', file.name, file.text.length);
       // Just building a wrapping scope for a file
       this._node.currentFile = resolvePath(server.options.projectDir + "/", file.name.replace(/\\/g, "/"));
       file.scope = buildWrappingScope(file.scope, file.name, file.ast);
