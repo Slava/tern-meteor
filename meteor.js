@@ -34,56 +34,92 @@
 
   // Returns dependencies meta-data, given AST, knows how to ignore the test
   // dependencies.
-  function getPackageDependencies (ast) {
+  function getPackageInfo (ast) {
     var packageDependencies = [];
     var tempPackageDependencies = [];
+    var packageFiles = [];
+    var tempPackageFiles = [];
+    var exports = [];
+
     walker.simple(ast, {
       CallExpression: function (expr) {
-        if (!expr.callee.object) return;
+        if (!expr.callee.object || !expr.arguments.length) return;
         if (expr.callee.object.name === 'Package') {
           if (expr.callee.property.name === 'on_test') {
-            // Traversed on_test scope, we can throw test dependencies away
+            // Traversed on_test scope, we can throw test dependencies and files away
             tempPackageDependencies = [];
+            tempPackageFiles = [];
           }
           else if (expr.callee.property.name === 'on_use') {
-            // Traversed on_use scope, we will save these dependencies
+            // Traversed on_use scope, we will save these info
             packageDependencies = packageDependencies.concat(tempPackageDependencies);
             tempPackageDependencies = [];
+            packageFiles = packageFiles.concat(tempPackageFiles);
+            tempPackageFiles = [];
           }
         }
-        if (expr.callee.object.name !== 'api' ||
-            expr.callee.property.name !== 'use' ||
-            !expr.arguments.length) { return; }
 
-        function arrayOrLitArg (arg, defaults) {
-          if (!arg) return defaults;
-          if (arg.type === 'Literal') return [arg.value];
-          if (pkg.type === 'ArrayExpression')
-            return arg.elements.map(function (n) { return n.value; });
-          return [];
+        if (expr.callee.object.name === 'api' &&
+            expr.callee.property.name === 'use') {
+          tempPackageDependencies =
+            tempPackageDependencies.concat(getPackageDependencies(expr));
         }
 
-        function objArg (arg) {
-          if (!arg) return {};
-          var obj = {};
-          arg.properties.forEach(function (p) {obj[p.key.name]=p.value.value;});
-          return obj;
+        if (expr.callee.object.name === 'api' &&
+            expr.callee.property.name === 'add_files') {
+          tempPackageFiles = tempPackageFiles.concat(getPackageFiles(expr));
         }
 
-        // So now we have two types of call:
-        // api.use('Package', 'client', { weak: false }); and
-        // api.use(['Package1', 'Package2'], ['client', 'server'], {weak:true});
-        var pkg = arrayOrLitArg(expr.arguments[0], []);
-        var where = arrayOrLitArg(expr.arguments[1], ['client', 'server']);
-        var opts = objArg(expr.arguments[2]);
-
-        pkg.forEach(function (p) {
-          tempPackageDependencies.push({ name: p, where: where, opts: opts });
-        });
+        if (expr.callee.object.name === 'api' &&
+            expr.callee.property.name === 'export') {
+          exports = exports.concat(getExports(expr));
+        }
       }
     });
 
-    return packageDependencies;
+    function arrayOrLitArg (arg, defaults) {
+      if (!arg) return defaults;
+      if (arg.type === 'Literal') return [arg.value];
+      if (arg.type === 'ArrayExpression')
+        return arg.elements.map(function (n) { return n.value; });
+      return [];
+    }
+
+    function objArg (arg) {
+      if (!arg) return {};
+      var obj = {};
+      arg.properties.forEach(function (p) {obj[p.key.name]=p.value.value;});
+      return obj;
+    }
+
+    function getPackageDependencies (expr) {
+      // We have two types of call:
+      // api.use('Package', 'client', { weak: false }); and
+      // api.use(['Package1', 'Package2'], ['client', 'server'], {weak:true});
+      var pkg = arrayOrLitArg(expr.arguments[0], []);
+      var where = arrayOrLitArg(expr.arguments[1], ['client', 'server']);
+      var opts = objArg(expr.arguments[2]);
+
+      return pkg.map(function (p) { return {name:p,where:where,opts:opts}; });
+    }
+
+    function getPackageFiles (expr) {
+      // api.add_files('somefile', 'client');
+      // api.add_files(['somefile', 'otherfile'], ['client', 'server']);
+      var files = arrayOrLitArg(expr.arguments[0], []);
+      var where = arrayOrLitArg(expr.arguments[1], ['client', 'server']);
+      return files.map(function (f) { return { path: f, where: where }; });
+    }
+
+    function getExports (expr) {
+      // api.export('SomeSymbol');
+      // api.export('SomeSymbol', { testOnly: true });
+      var symbols = arrayOrLitArg(expr.arguments[0], []);
+      var opts = objArg(expr.arguments[1]);
+      return symbols.map(function (s) { return { symbol: s, opts: opts } });
+    }
+
+    return { deps: packageDependencies, files: packageFiles, exports: exports };
   };
 
   tern.registerPlugin("meteor", function(server, options) {
@@ -100,8 +136,7 @@
       filesList.forEach(function (filename) {
         fs.readFile(filename, 'utf8', function (err, file) {
           var ast = acorn.parse(file);
-          console.log(filename)
-          console.log(getPackageDependencies(ast));
+          console.log(JSON.stringify(getPackageInfo(ast), null, 2));
         });
       });
     });
