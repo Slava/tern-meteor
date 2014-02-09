@@ -7,6 +7,17 @@
 })(function(infer, tern, require) {
   "use strict";
 
+  var glob = require('glob');
+  var acorn = require('acorn');
+  var walker = require('acorn/util/walk.js');
+  var fs = require('fs');
+  var Fiber = require('fibers');
+  var Future = require('fibers/future');
+  var _ = require('underscore');
+
+  // Sync readFile in utf-8
+  var readFile = Future.wrap(fs.readFile.bind(fs, 'utf-8'), 1);
+
   function resolvePath(base, path) {
     if (path[0] == "/") return path;
     var slash = base.lastIndexOf("/"), m;
@@ -21,6 +32,60 @@
     return scope;
   }
 
+  // Returns dependencies meta-data, given AST, knows how to ignore the test
+  // dependencies.
+  function getPackageDependencies (ast) {
+    var packageDependencies = [];
+    var tempPackageDependencies = [];
+    walker.simple(ast, {
+      CallExpression: function (expr) {
+        if (!expr.callee.object) return;
+        if (expr.callee.object.name === 'Package') {
+          if (expr.callee.property.name === 'on_test') {
+            // Traversed on_test scope, we can throw test dependencies away
+            tempPackageDependencies = [];
+          }
+          else if (expr.callee.property.name === 'on_use') {
+            // Traversed on_use scope, we will save these dependencies
+            packageDependencies = packageDependencies.concat(tempPackageDependencies);
+            tempPackageDependencies = [];
+          }
+        }
+        if (expr.callee.object.name !== 'api' ||
+            expr.callee.property.name !== 'use' ||
+            !expr.arguments.length) { return; }
+
+        function arrayOrLitArg (arg, defaults) {
+          if (!arg) return defaults;
+          if (arg.type === 'Literal') return [arg.value];
+          if (pkg.type === 'ArrayExpression')
+            return arg.elements.map(function (n) { return n.value; });
+          return [];
+        }
+
+        function objArg (arg) {
+          if (!arg) return {};
+          var obj = {};
+          arg.properties.forEach(function (p) {obj[p.key.name]=p.value.value;});
+          return obj;
+        }
+
+        // So now we have two types of call:
+        // api.use('Package', 'client', { weak: false }); and
+        // api.use(['Package1', 'Package2'], ['client', 'server'], {weak:true});
+        var pkg = arrayOrLitArg(expr.arguments[0], []);
+        var where = arrayOrLitArg(expr.arguments[1], ['client', 'server']);
+        var opts = objArg(expr.arguments[2]);
+
+        pkg.forEach(function (p) {
+          tempPackageDependencies.push({ name: p, where: where, opts: opts });
+        });
+      }
+    });
+
+    return packageDependencies;
+  };
+
   tern.registerPlugin("meteor", function(server, options) {
     server._node = {
       modules: Object.create(null),
@@ -31,67 +96,12 @@
 
 
     // Load all packages
-    var glob = require('glob');
-    var acorn = require('acorn');
-    var walker = require('acorn/util/walk.js');
-    var fs = require('fs');
     glob("packages/*/package.js", function (err, filesList) {
       filesList.forEach(function (filename) {
         fs.readFile(filename, 'utf8', function (err, file) {
           var ast = acorn.parse(file);
-          var packageDependencies = [];
-          walker.simple(ast, {
-            CallExpression: function (expr) {
-              if (!expr.callee.object)
-                return;
-              if (expr.callee.object.name !== 'api')
-                return;
-              if (expr.callee.property.name === 'use') {
-                if (! expr.arguments.length)
-                  return;
-                // So now we have two types of call:
-                // api.use('Package', 'client', { weak: false }); and
-                // api.use(['Package1', 'Package2'], ['client', 'server'], {weak: true});
-                var pkg = expr.arguments[0];
-                var where = expr.arguments[1];
-                var opts = expr.arguments[2];
-
-                if (pkg.type === 'Literal')
-                  pkg = [pkg.value];
-                else if (pkg.type === 'ArrayExpression')
-                  pkg = pkg.elements.map(function (n) { return n.value; });
-                else
-                  pkg = [];
-
-                if (where === undefined)
-                  where = ['client', 'server'];
-                else if (where.type === 'Literal')
-                  if (where.value === 'both')
-                    where = ['client', 'server'];
-                  else
-                    where = [where.value];
-                else if (where.type === 'ArrayExpression')
-                  where = where.elements.map(function (n) { return n.value; });
-                else
-                  where = [];
-
-                if (opts !== undefined) {
-                  var opts_o = opts;
-                  opts = {};
-                  opts_o.properties.forEach(function (p) { opts[p.key.name] = p.value.value; });
-                } else opts = {};
-
-                pkg.forEach(function (p) {
-                  packageDependencies.push({
-                    name: p,
-                    where: where,
-                    opts: opts
-                  });
-                });
-              }
-            }
-          });
-          console.log('package dependencies of ', filename, packageDependencies);
+          console.log(filename)
+          console.log(getPackageDependencies(ast));
         });
       });
     });
