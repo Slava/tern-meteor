@@ -82,6 +82,7 @@ Installation for Vim
 You check out my Vim setup which is already optimized for Meteor development:
 [GitHub repo](https://github.com/Slava/vimrc). Or you can get it to your setup:
 
+- Make sure you have either [neocomplete](https://github.com/Shougo/neocomplete.vim) or [neocomplcache](https://github.com/Shougo/neocomplcache.vim) plugin installed.
 - Install [tern-vim plugin](https://github.com/marijnh/tern_for_vim) with your
   favorite package manager for Vim.
 - `cd` to `.vim` folder, `tern_for_vim` plugin folder and run `npm install` to
