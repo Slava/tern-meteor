@@ -8,7 +8,7 @@ API mismatch, report in the issues.
 This is a plugin for [TernJS](http://ternjs.net) bringing support for
 [Meteor](https://www.meteor.com) JavaScript Framework. Tested on Vim and Sublime
 Text 2/3, reported to work on Emacs, potentially should work on Brackets,
-LightTable and any other CodeMirror-based editors.
+LightTable, [Eclipse](https://github.com/angelozerr/tern.java/wiki/Tern-&-Meteor-support) and any other CodeMirror-based editors.
 
 Checkout my presentation on Meteor Devshop 11: [Videos](https://www.youtube.com/watch?v=Lqcs6hPOcFw#t=6227) and [Slides](https://slid.es/slavakim/meteor).
 The mailing thread for this project is [here on meteor-talk](https://groups.google.com/forum/#!searchin/meteor-talk/tern/meteor-talk/b_yGWIqXl7Y/UYsGCGLWu7sJ).
