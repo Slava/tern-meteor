@@ -384,7 +384,7 @@
         },
         "call": {
           "!doc": "Anywhere\nInvokes a method passing any number of arguments.",
-          "!type": "fn(name: string, arg1, arg2...: EJSONable, asyncCallback?: fn())"
+          "!type": "fn(name: string, arg1, arg2..., asyncCallback?: fn())"
         },
         "apply": {
           "!doc": "Anywhere\nInvoke a method passing an array of arguments.",
@@ -931,4 +931,5 @@
     }
   };
 });
+
 

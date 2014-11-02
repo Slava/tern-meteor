@@ -75,9 +75,13 @@ attach['class'] = attach['function'] = function (fun) {
   _.each(fun, function (def, symbol) {
     if (symbol === 'params') {
       params = _.map(def, function (param) {
-        var type = 
-          processParamType(param.type.names[0]); // XXX hardcoding first acceptable type
-        return processParamName(param) + (type ? ': ' + type : '');
+        var name = processParamName(param);
+        var type = null;
+        if (! name.match(/\.\.\.\?$/))
+          type = processParamType(param.type.names[0]); // XXX hardcoding first acceptable type
+        else
+          name = name.substr(0, name.length - 1);
+        return  name + (type ? ': ' + type : '');
       });
       return;
     }
@@ -101,7 +105,7 @@ function processParamName (param) {
   if (! param.name)
     throw new Error('param w/o a name');
   r = param.name;
-  if (param.optional && !param.name.match(/\.\.\.$/))
+  if (param.optional)
     r += '?';
   return r;
 };
