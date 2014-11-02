@@ -65,7 +65,7 @@
         "Where": "fn(condition: bool)",
         "test": {
           "!doc": "Anywhere\nReturns true if the value matches the pattern.",
-          "!type": "fn(value: ?, pattern: MatchPattern)"
+          "!type": "fn(value, pattern: MatchPattern)"
         },
         "!doc": "The namespace for all Match types and methods."
       },
@@ -82,7 +82,6 @@
           "!doc": "Accounts UI"
         },
         "emailTemplates": {
-          "!type": "?",
           "!doc": "Server\nOptions to customize emails sent from the Accounts system."
         },
         "config": {
@@ -163,20 +162,19 @@
         "TemplateInstance": {
           "prototype": {
             "data": {
-              "!type": "?",
               "!doc": "Client\nThe data context of this instance's latest invocation."
             },
             "view": {
-              "!type": "Blaze.View",
-              "!doc": "Client\nThe [View](#blaze_view) object for this invocation of the template."
+              "!doc": "Client\nThe [View](#blaze_view) object for this invocation of the template.",
+              "!type": "Blaze.View"
             },
             "firstNode": {
-              "!type": "DOMNode",
-              "!doc": "Client\nThe first top-level DOM node in this template instance."
+              "!doc": "Client\nThe first top-level DOM node in this template instance.",
+              "!type": "DOMNode"
             },
             "lastNode": {
-              "!type": "DOMNode",
-              "!doc": "Client\nThe last top-level DOM node in this template instance."
+              "!doc": "Client\nThe last top-level DOM node in this template instance.",
+              "!type": "DOMNode"
             },
             "$": {
               "!doc": "Client\nFind all elements matching `selector` in this template instance, and return them as a JQuery object.",
@@ -199,8 +197,8 @@
           "!type": "fn(view: Blaze.View)"
         },
         "currentView": {
-          "!type": "Blaze.View",
-          "!doc": "Client\nThe View corresponding to the current template helper, event handler, callback, or autorun.  If there isn't one, `null`."
+          "!doc": "Client\nThe View corresponding to the current template helper, event handler, callback, or autorun.  If there isn't one, `null`.",
+          "!type": "Blaze.View"
         },
         "With": {
           "!doc": "Client\nConstructs a View that renders content with a data context.",
@@ -220,7 +218,7 @@
         },
         "isTemplate": {
           "!doc": "Client\nReturns true if `value` is a template object like `Template.myTemplate`.",
-          "!type": "fn(value: ?)"
+          "!type": "fn(value)"
         },
         "render": {
           "!doc": "Client\nRenders a template or View to DOM nodes and inserts it into the DOM, returning a rendered [View](#blaze_view) which can be passed to [`Blaze.remove`](#blaze_remove).",
@@ -269,7 +267,6 @@
       },
       "EJSON": {
         "newBinary": {
-          "!type": "?",
           "!doc": "Anywhere\nAllocate a new buffer of binary data that EJSON can serialize."
         },
         "CustomType": {
@@ -330,28 +327,28 @@
       },
       "Meteor": {
         "users": {
-          "!type": "Mongo.Collection",
-          "!doc": "Anywhere\nA [Mongo.Collection](#collections) containing user documents."
+          "!doc": "Anywhere\nA [Mongo.Collection](#collections) containing user documents.",
+          "!type": "Mongo.Collection"
         },
         "isClient": {
-          "!type": "boolean",
-          "!doc": "Anywhere\nBoolean variable.  True if running in client environment."
+          "!doc": "Anywhere\nBoolean variable.  True if running in client environment.",
+          "!type": "boolean"
         },
         "isServer": {
-          "!type": "boolean",
-          "!doc": "Anywhere\nBoolean variable.  True if running in server environment."
+          "!doc": "Anywhere\nBoolean variable.  True if running in server environment.",
+          "!type": "boolean"
         },
         "settings": {
-          "!type": "Object",
-          "!doc": "Anywhere\n`Meteor.settings` contains deployment-specific configuration options. You can initialize settings by passing the `--settings` option (which takes the name of a file containing JSON data) to `meteor run` or `meteor deploy`. When running your server directly (e.g. from a bundle), you instead specify settings by putting the JSON directly into the `METEOR_SETTINGS` environment variable. If you don't provide any settings, `Meteor.settings` will be an empty object.  If the settings object contains a key named `public`, then `Meteor.settings.public` will be available on the client as well as the server.  All other properties of `Meteor.settings` are only defined on the server."
+          "!doc": "Anywhere\n`Meteor.settings` contains deployment-specific configuration options. You can initialize settings by passing the `--settings` option (which takes the name of a file containing JSON data) to `meteor run` or `meteor deploy`. When running your server directly (e.g. from a bundle), you instead specify settings by putting the JSON directly into the `METEOR_SETTINGS` environment variable. If you don't provide any settings, `Meteor.settings` will be an empty object.  If the settings object contains a key named `public`, then `Meteor.settings.public` will be available on the client as well as the server.  All other properties of `Meteor.settings` are only defined on the server.",
+          "!type": "Object"
         },
         "isCordova": {
-          "!type": "boolean",
-          "!doc": "Anywhere\nBoolean variable.  True if running in a Cordova mobile environment."
+          "!doc": "Anywhere\nBoolean variable.  True if running in a Cordova mobile environment.",
+          "!type": "boolean"
         },
         "release": {
-          "!type": "string",
-          "!doc": "Anywhere\n`Meteor.release` is a string containing the name of the [release](#meteorupdate) with which the project was built (for example, `\"1.2.3\"`). It is `undefined` if the project was built using a git checkout of Meteor."
+          "!doc": "Anywhere\n`Meteor.release` is a string containing the name of the [release](#meteorupdate) with which the project was built (for example, `\"1.2.3\"`). It is `undefined` if the project was built using a git checkout of Meteor.",
+          "!type": "string"
         },
         "userId": {
           "!doc": "Anywhere but publish functions\nGet the current user id, or `null` if no user is logged in. A reactive data source.",
@@ -383,11 +380,11 @@
         },
         "subscribe": {
           "!doc": "Client\nSubscribe to a record set.  Returns a handle that provides `stop()` and `ready()` methods.",
-          "!type": "fn(name: string, arg1, arg2...?: ?, callbacks?: fn()) -> MeteorSubscribeHandle"
+          "!type": "fn(name: string, arg1, arg2..., callbacks?: fn()) -> MeteorSubscribeHandle"
         },
         "call": {
           "!doc": "Anywhere\nInvokes a method passing any number of arguments.",
-          "!type": "fn(name: string, arg1, arg2...?: EJSONable, asyncCallback?: fn())"
+          "!type": "fn(name: string, arg1, arg2...: EJSONable, asyncCallback?: fn())"
         },
         "apply": {
           "!doc": "Anywhere\nInvoke a method passing an array of arguments.",
@@ -456,11 +453,11 @@
           "prototype": {
             "forEach": {
               "!doc": "Anywhere\nCall `callback` once for each matching document, sequentially and synchronously.",
-              "!type": "fn(callback: fn(), thisArg?: ?)"
+              "!type": "fn(callback: fn(), thisArg?)"
             },
             "map": {
               "!doc": "Anywhere\nMap callback over all matching documents.  Returns an Array.",
-              "!type": "fn(callback: fn(), thisArg?: ?)"
+              "!type": "fn(callback: fn(), thisArg?)"
             },
             "fetch": {
               "!doc": "Anywhere\nReturn all matching documents as an Array.",
@@ -528,26 +525,25 @@
       },
       "Tracker": {
         "active": {
-          "!type": "boolean",
-          "!doc": "Client\nTrue if there is a current computation, meaning that dependencies on reactive data sources will be tracked and potentially cause the current computation to be rerun."
+          "!doc": "Client\nTrue if there is a current computation, meaning that dependencies on reactive data sources will be tracked and potentially cause the current computation to be rerun.",
+          "!type": "boolean"
         },
         "currentComputation": {
-          "!type": "Tracker.Computation",
-          "!doc": "Client\nThe current computation, or `null` if there isn't one.  The current computation is the [`Tracker.Computation`](#tracker_computation) object created by the innermost active call to `Tracker.autorun`, and it's the computation that gains dependencies when reactive data sources are accessed."
+          "!doc": "Client\nThe current computation, or `null` if there isn't one.  The current computation is the [`Tracker.Computation`](#tracker_computation) object created by the innermost active call to `Tracker.autorun`, and it's the computation that gains dependencies when reactive data sources are accessed.",
+          "!type": "Tracker.Computation"
         },
         "Computation": {
           "prototype": {
             "stopped": {
-              "!type": "?",
               "!doc": "Client\nTrue if this computation has been stopped."
             },
             "invalidated": {
-              "!type": "boolean",
-              "!doc": "Client\nTrue if this computation has been invalidated (and not yet rerun), or if it has been stopped."
+              "!doc": "Client\nTrue if this computation has been invalidated (and not yet rerun), or if it has been stopped.",
+              "!type": "boolean"
             },
             "firstRun": {
-              "!type": "boolean",
-              "!doc": "Client\nTrue during the initial run of the computation at the time `Tracker.autorun` is called, and false on subsequent reruns and at other times."
+              "!doc": "Client\nTrue during the initial run of the computation at the time `Tracker.autorun` is called, and false on subsequent reruns and at other times.",
+              "!type": "boolean"
             },
             "onInvalidate": {
               "!doc": "Client\nRegisters `callback` to run when this computation is next invalidated, or runs it immediately if the computation is already invalidated.  The callback is run exactly once and not upon future invalidations unless `onInvalidate` is called again after the computation becomes valid again.",
@@ -684,25 +680,20 @@
         "!doc": "The Cordova object in package.js."
       },
       "currentUser": {
-        "!type": "?",
         "!doc": "Calls [Meteor.user()](#meteor_user). Use `{{#if currentUser}}` to check whether the user is logged in."
       },
       "loggingIn": {
-        "!type": "?",
         "!doc": "Calls [Meteor.loggingIn()](#meteor_loggingin)."
       },
       "Template": {
         "prototype": {
           "created": {
-            "!type": "?",
             "!doc": "Client\nProvide a callback when an instance of a template is created."
           },
           "rendered": {
-            "!type": "?",
             "!doc": "Client\nProvide a callback when an instance of a template is rendered."
           },
           "destroyed": {
-            "!type": "?",
             "!doc": "Client\nProvide a callback when an instance of a template is destroyed."
           },
           "helpers": {
@@ -720,15 +711,13 @@
       "MethodInvocation": {
         "prototype": {
           "isSimulation": {
-            "!type": "boolean",
-            "!doc": "Anywhere\nAccess inside a method invocation.  Boolean value, true if this invocation is a stub."
+            "!doc": "Anywhere\nAccess inside a method invocation.  Boolean value, true if this invocation is a stub.",
+            "!type": "boolean"
           },
           "userId": {
-            "!type": "?",
             "!doc": "Anywhere\nThe id of the user that made this method call, or `null` if no user was logged in."
           },
           "connection": {
-            "!type": "?",
             "!doc": "Server\nAccess inside a method invocation. The [connection](#meteor_onconnection) that this method was received on. `null` if the method is not associated with a connection, eg. a server initiated method call."
           },
           "unblock": {
@@ -746,11 +735,9 @@
       "Subscription": {
         "prototype": {
           "connection": {
-            "!type": "?",
             "!doc": "Server\nAccess inside the publish function. The incoming [connection](#meteor_onconnection) for this subscription."
           },
           "userId": {
-            "!type": "?",
             "!doc": "Server\nAccess inside the publish function. The id of the logged-in user, or `null` if no user is logged in."
           },
           "error": {
@@ -788,40 +775,40 @@
       "CompileStep": {
         "prototype": {
           "inputSize": {
-            "!type": "number",
-            "!doc": "The total number of bytes in the input file."
+            "!doc": "The total number of bytes in the input file.",
+            "!type": "number"
           },
           "inputPath": {
-            "!type": "string",
-            "!doc": "The filename and relative path of the input file.\nPlease don't use this filename to read the file from disk, instead\nuse [compileStep.read](CompileStep-read)."
+            "!doc": "The filename and relative path of the input file.\nPlease don't use this filename to read the file from disk, instead\nuse [compileStep.read](CompileStep-read).",
+            "!type": "string"
           },
           "fullInputPath": {
-            "!type": "string",
-            "!doc": "The filename and absolute path of the input file.\nPlease don't use this filename to read the file from disk, instead\nuse [compileStep.read](CompileStep-read)."
+            "!doc": "The filename and absolute path of the input file.\nPlease don't use this filename to read the file from disk, instead\nuse [compileStep.read](CompileStep-read).",
+            "!type": "string"
           },
           "pathForSourceMap": {
-            "!type": "string",
-            "!doc": "If you are generating a sourcemap for the compiled file, use\nthis path for the original file in the sourcemap."
+            "!doc": "If you are generating a sourcemap for the compiled file, use\nthis path for the original file in the sourcemap.",
+            "!type": "string"
           },
           "packageName": {
-            "!type": "string",
-            "!doc": "The name of the package in which the file being built exists."
+            "!doc": "The name of the package in which the file being built exists.",
+            "!type": "string"
           },
           "rootOutputPath": {
-            "!type": "string",
-            "!doc": "On web targets, this will be the root URL prepended\nto the paths you pick for your output files. For example,\nit could be \"/packages/my-package\"."
+            "!doc": "On web targets, this will be the root URL prepended\nto the paths you pick for your output files. For example,\nit could be \"/packages/my-package\".",
+            "!type": "string"
           },
           "arch": {
-            "!type": "string",
-            "!doc": "The architecture for which we are building. Can be \"os\",\n\"web.browser\", or \"web.cordova\"."
+            "!doc": "The architecture for which we are building. Can be \"os\",\n\"web.browser\", or \"web.cordova\".",
+            "!type": "string"
           },
           "fileOptions": {
-            "!type": "Object",
-            "!doc": "Any options passed to \"api.addFiles\"."
+            "!doc": "Any options passed to \"api.addFiles\".",
+            "!type": "Object"
           },
           "declaredExports": {
-            "!type": "Object",
-            "!doc": "The list of exports that the current package has defined.\nCan be used to treat those symbols differently during compilation."
+            "!doc": "The list of exports that the current package has defined.\nCan be used to treat those symbols differently during compilation.",
+            "!type": "Object"
           },
           "read": {
             "!doc": "Read from the input file. If `n` is specified, returns the\nnext `n` bytes of the file as a Buffer. XXX not sure if this actually\nreturns a String sometimes...",
@@ -853,7 +840,7 @@
       },
       "check": {
         "!doc": "Anywhere\nCheck that a value matches a [pattern](#matchpatterns).\nIf the value does not match the pattern, throw a `Match.Error`.\n\nParticularly useful to assert that arguments to a function have the right\ntypes and structure.",
-        "!type": "fn(value: ?, pattern: MatchPattern)"
+        "!type": "fn(value, pattern: MatchPattern)"
       },
       "Email": {
         "send": {
@@ -891,11 +878,11 @@
           },
           "set": {
             "!doc": "Client\nSets the current value of the ReactiveVar, invalidating the Computations that called `get` if `newValue` is different from the old value.",
-            "!type": "fn(newValue: ?)"
+            "!type": "fn(newValue)"
           }
         },
         "!doc": "Client\nConstructor for a ReactiveVar, which represents a single reactive variable.",
-        "!type": "fn(initialValue: ?, equalsFunc?: fn())"
+        "!type": "fn(initialValue, equalsFunc?: fn())"
       },
       "Session": {
         "set": {
@@ -944,3 +931,4 @@
     }
   };
 });
+

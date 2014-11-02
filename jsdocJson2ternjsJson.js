@@ -56,12 +56,12 @@ attach.namespace = function (namespace) {
 };
 
 attach.member = function (member) {
-  var o = {
-    '!type': '?'
-  };
+  var o = {};
   _.each(member, function (def, symbol) {
     if (symbol === 'type') {
       o['!type'] = processParamType(def.names[0]); // XXX hardcoding first acceptable type
+      if (! o['!type'])
+        delete o['!type'];
       return;
     }
     if (dealWithMisc(def, symbol, o)) return;
@@ -75,8 +75,9 @@ attach['class'] = attach['function'] = function (fun) {
   _.each(fun, function (def, symbol) {
     if (symbol === 'params') {
       params = _.map(def, function (param) {
-        return processParamName(param) + ': ' +
+        var type = 
           processParamType(param.type.names[0]); // XXX hardcoding first acceptable type
+        return processParamName(param) + (type ? ': ' + type : '');
       });
       return;
     }
@@ -100,14 +101,14 @@ function processParamName (param) {
   if (! param.name)
     throw new Error('param w/o a name');
   r = param.name;
-  if (param.optional)
+  if (param.optional && !param.name.match(/\.\.\.$/))
     r += '?';
   return r;
 };
 
 function processParamType (type) {
   if (! type || type === 'Any')
-    return '?';
+    return null;
   var rgx = /^Array\.<(.*)>$/;
   var m = type.match(rgx);
   var isArray = false;
