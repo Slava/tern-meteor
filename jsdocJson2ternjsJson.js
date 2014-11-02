@@ -3,6 +3,7 @@ var _ = require('underscore');
 
 var jsdoc = eval(fs.readFileSync(process.argv[2], 'utf8'));
 var O = {
+  "!name": "meteor",
   Match: {
     "Any": "?",
     "String": "?",
@@ -159,8 +160,5 @@ function dealWithMisc (def, symbol, o) {
 }
 
 attach.namespace(jsdoc);
-console.log(JSON.stringify({
-  "!name": "meteor",
-  "!define": O
-}, null, 2))
+console.log(JSON.stringify(O, null, 2))
 
