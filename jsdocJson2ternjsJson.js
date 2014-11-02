@@ -77,7 +77,7 @@ attach['class'] = attach['function'] = function (fun) {
       params = _.map(def, function (param) {
         var name = processParamName(param);
         var type = null;
-        if (! name.match(/\.\.\.\?$/))
+        if (! name.match(/\.\.\.\?$/) || ! name === 'thisArg?')
           type = processParamType(param.type.names[0]); // XXX hardcoding first acceptable type
         else
           name = name.substr(0, name.length - 1);

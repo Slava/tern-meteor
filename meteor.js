@@ -453,11 +453,11 @@
           "prototype": {
             "forEach": {
               "!doc": "Anywhere\nCall `callback` once for each matching document, sequentially and synchronously.",
-              "!type": "fn(callback: fn(), thisArg?)"
+              "!type": "fn(callback: fn(), thisArg)"
             },
             "map": {
               "!doc": "Anywhere\nMap callback over all matching documents.  Returns an Array.",
-              "!type": "fn(callback: fn(), thisArg?)"
+              "!type": "fn(callback: fn(), thisArg)"
             },
             "fetch": {
               "!doc": "Anywhere\nReturn all matching documents as an Array.",
