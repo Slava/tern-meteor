@@ -1,6 +1,10 @@
 TernJS plugin: Meteor
 ===
 
+*UPDATE*: All definitions were update to Meteor 1.0. There are probably some
+bugs since this project moved to definitions autogeneration, if you notice any
+API mismatch, report in the issues.
+
 This is a plugin for [TernJS](http://ternjs.net) bringing support for
 [Meteor](https://www.meteor.com) JavaScript Framework. Tested on Vim and Sublime
 Text 2/3, reported to work on Emacs, potentially should work on Brackets,
@@ -86,7 +90,8 @@ You check out my Vim setup which is already optimized for Meteor development:
   favorite package manager for Vim.
 - `cd` to `.vim` folder, `tern_for_vim` plugin folder and run `npm install` to
   fetch `tern` npm module.
-- Download `meteor.js` file (from this repo) to tern's folder called `plugins`.
+- Download `meteor.js` file (from this repo) to tern's folder
+  `tern_for_vim/node_modules/tern/plugins`.
 - In your Meteor project create a file `.tern-project` with the contents similar
   to:
 
