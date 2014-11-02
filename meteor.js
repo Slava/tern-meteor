@@ -189,7 +189,7 @@
           },
           "autorun": {
             "!doc": "Client\nA version of [Tracker.autorun](#tracker_autorun) that is stopped when the template is destroyed.",
-            "!type": "fn(runFunc: fn())"
+            "!type": "fn(runFunc: fn()) -> +Tracker.Computation"
           }
         },
         "!doc": "The class for template instances",
@@ -584,7 +584,7 @@
       },
       "autorun": {
         "!doc": "Client\nRun a function now and rerun it later whenever its dependencies change. Returns a Computation object that can be used to stop or observe the rerunning.",
-        "!type": "fn(runFunc: fn()) -> Tracker.Computation"
+        "!type": "fn(runFunc: fn()) -> +Tracker.Computation"
       },
       "nonreactive": {
         "!doc": "Client\nRun a function without tracking dependencies.",
@@ -929,5 +929,4 @@
     }
   };
 });
-
 

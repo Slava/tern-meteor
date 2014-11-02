@@ -25,8 +25,8 @@ var O = {
 };
 var specialFunctionReturns = {
   'Meteor.subscribe': 'MeteorSubscribeHandle',
-  'Tracker.autorun': 'Tracker.Computation',
-  'Blaze.TemplateInstance.prototype.autorun': 'Tracker.Computation'
+  'Tracker.autorun': '+Tracker.Computation',
+  'Blaze.TemplateInstance#autorun': '+Tracker.Computation'
 };
 
 var commonSkips = ['longname', 'kind', 'name', 'scope', 'memberof', 'options', 'instancename'];
@@ -78,7 +78,7 @@ attach['class'] = attach['function'] = function (fun) {
       params = _.map(def, function (param) {
         var name = processParamName(param);
         var type = null;
-        if (! name.match(/\.\.\.\?$/) || ! name === 'thisArg?')
+        if (! name.match(/\.\.\.\?$/) && name !== 'thisArg?')
           type = processParamType(param.type.names[0]); // XXX hardcoding first acceptable type
         else
           name = name.substr(0, name.length - 1);
