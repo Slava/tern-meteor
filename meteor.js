@@ -1,6 +1,6 @@
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    return mod(require("../lib/infer"), require("../lib/tern"), require);
+    return mod(require("tern/lib/infer"), require("tern/lib/tern"), require);
   if (typeof define == "function" && define.amd) // AMD
     return define(["../lib/infer", "../lib/tern"], mod);
   mod(tern, tern);
