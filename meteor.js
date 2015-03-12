@@ -22,7 +22,7 @@
   }
 
   tern.registerPlugin("meteor", function(server, options) {
-    server._node = {
+    server._meteor = {
       modules: Object.create(null),
       options: options || {},
       currentFile: null,
@@ -31,13 +31,13 @@
 
     server.on("beforeLoad", function(file) {
       // Just building a wrapping scope for a file
-      this._node.currentFile = resolvePath(server.options.projectDir + "/", file.name.replace(/\\/g, "/"));
+      this._meteor.currentFile = resolvePath(server.options.projectDir + "/", file.name.replace(/\\/g, "/"));
       file.scope = buildWrappingScope(file.scope, file.name, file.ast);
     });
 
     server.on("afterLoad", function(file) {
       // XXX do we even need this stuff?
-      this._node.currentFile = null;
+      this._meteor.currentFile = null;
     });
 
     server.on("reset", function() {
