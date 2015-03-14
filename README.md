@@ -48,35 +48,10 @@ Todo features
 - parsing of handlebars template?
 
 
-Installation for Sublime Text 2/3
+Installation for Sublime Text 3
 ---
 
-**[Demo Video of Sublime Text](https://www.youtube.com/watch?v=5cAHxpNEHTc)**
-
-- install Package Control (https://sublime.wbond.net/installation)
-- install sublime-tern plugin (cmd+shift+p -> install package -> TernJS -> restart sublime)
-- `cd` to Sublime Text packages directory (`~/Library/Application Support/Sublime Text 3/Packages` on Mac OS X) (Is your TernJS package fetched as binary file? [see here](https://github.com/Slava/tern-meteor/issues/7))
-- `cd TernJS/ternjs/plugin` (or create the directories if they doesn't exist first - `mkdir -p TernJS/ternjs/plugin`)
-- copy over meteor.js file here
-- create a new sublime project, save it, add files
-- edit project configuration (menu->project->edit project)
-- edit the json file in this manner:
-
-```
-    {
-      "folders":
-      [
-               ... don't touch this part, leave it as it was ...
-      ],
-      // add this! ternjs object
-      "ternjs": {
-        "libs": ["browser", "underscore", "jquery"],
-        "plugins": {
-          "meteor": {}
-        }
-      }
-    }
-```
+[Go and install the separate package for ST3.](https://github.com/Slava/tern-meteor-sublime)
 
 Installation for Vim
 ---
