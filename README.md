@@ -1,7 +1,7 @@
 TernJS plugin: Meteor
 ===
 
-*UPDATE*: All definitions were update to Meteor 1.0. There are probably some
+*UPDATE*: All definitions were update to Meteor 1.0.4. There are probably some
 bugs since this project moved to definitions autogeneration, if you notice any
 API mismatch, report in the issues.
 
