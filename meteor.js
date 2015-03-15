@@ -141,7 +141,7 @@
       },
       "With": {
         "!doc": "Constructs a View that renders content with a data context.",
-        "!type": "fn(data: Object, contentFunc: fn())"
+        "!type": "fn(data: ?, contentFunc: fn())"
       },
       "currentView": {
         "!doc": "The View corresponding to the current template helper, event handler, callback, or autorun.  If there isn't one, `null`.",
@@ -169,7 +169,7 @@
       },
       "renderWithData": {
         "!doc": "Renders a template or View to DOM nodes with a data context.  Otherwise identical to `Blaze.render`.",
-        "!type": "fn(templateOrView: +Template, data: Object, parentNode: +DOMNode, nextNode?: +DOMNode, parentView?: +Blaze.View)"
+        "!type": "fn(templateOrView: +Template, data: ?, parentNode: +DOMNode, nextNode?: +DOMNode, parentView?: +Blaze.View)"
       },
       "toHTML": {
         "!doc": "Renders a template or View to a string of HTML.",
@@ -177,7 +177,7 @@
       },
       "toHTMLWithData": {
         "!doc": "Renders a template or View to HTML with a data context.  Otherwise identical to `Blaze.toHTML`.",
-        "!type": "fn(templateOrView: +Template, data: Object)"
+        "!type": "fn(templateOrView: +Template, data: ?)"
       }
     },
     "CompileStep": {
@@ -186,19 +186,19 @@
       "prototype": {
         "addAsset": {
           "!doc": "Add a file to serve as-is to the browser or to include on\nthe browser, depending on the target. On the web, it will be served\nat the exact path requested. For server targets, it can be retrieved\nusing `Assets.getText` or `Assets.getBinary`.",
-          "!type": "fn(options: Object, path: string, data: +Buffer)"
+          "!type": "fn(options: ?, path: string, data: +Buffer)"
         },
         "addHtml": {
           "!doc": "Works in web targets only. Add markup to the `head` or `body`\nsection of the document.",
-          "!type": "fn(options: Object)"
+          "!type": "fn(options: ?)"
         },
         "addJavaScript": {
           "!doc": "Add JavaScript code. The code added will only see the\nnamespaces imported by this package as runtime dependencies using\n['api.use'](#PackageAPI-use). If the file being compiled was added\nwith the bare flag, the resulting JavaScript won't be wrapped in a\nclosure.",
-          "!type": "fn(options: Object)"
+          "!type": "fn(options: ?)"
         },
         "addStylesheet": {
           "!doc": "Web targets only. Add a stylesheet to the document.",
-          "!type": "fn(options: Object, path: string, data: string, sourceMap: string)"
+          "!type": "fn(options: ?, path: string, data: string, sourceMap: string)"
         },
         "arch": {
           "!doc": "The architecture for which we are building. Can be \"os\",\n\"web.browser\", or \"web.cordova\".",
@@ -206,15 +206,15 @@
         },
         "declaredExports": {
           "!doc": "The list of exports that the current package has defined.\nCan be used to treat those symbols differently during compilation.",
-          "!type": "Object"
+          "!type": "?"
         },
         "error": {
           "!doc": "Display a build error.",
-          "!type": "fn(options: Object, message: string, sourcePath?: string, line: number, func: string)"
+          "!type": "fn(options: ?, message: string, sourcePath?: string, line: number, func: string)"
         },
         "fileOptions": {
           "!doc": "Any options passed to \"api.addFiles\".",
-          "!type": "Object"
+          "!type": "?"
         },
         "fullInputPath": {
           "!doc": "The filename and absolute path of the input file.\nPlease don't use this filename to read the file from disk, instead\nuse [compileStep.read](CompileStep-read).",
@@ -257,7 +257,7 @@
           },
           "equals": {
             "!doc": "Return `true` if `other` has a value equal to `this`; `false` otherwise.",
-            "!type": "fn(other: Object)"
+            "!type": "fn(other: ?)"
           },
           "toJSONValue": {
             "!doc": "Serialize this instance into a JSON-compatible value.",
@@ -280,7 +280,7 @@
       },
       "equals": {
         "!doc": "Return true if `a` and `b` are equal to each other.  Return false otherwise.  Uses the `equals` method on `a` if present, otherwise performs a deep comparison.",
-        "!type": "fn(a: +EJSON, b: +EJSON, options?: Object)"
+        "!type": "fn(a: +EJSON, b: +EJSON, options?: ?)"
       },
       "fromJSONValue": {
         "!doc": "Deserialize an EJSON value from its plain JSON representation.",
@@ -288,7 +288,7 @@
       },
       "isBinary": {
         "!doc": "Returns true if `x` is a buffer of binary data, as returned from [`EJSON.newBinary`](#ejson_new_binary).",
-        "!type": "fn(x: Object)"
+        "!type": "fn(x: ?)"
       },
       "newBinary": {
         "!doc": "Allocate a new buffer of binary data that EJSON can serialize."
@@ -299,7 +299,7 @@
       },
       "stringify": {
         "!doc": "Serialize a value to a string.\n\nFor EJSON values, the serialization fully represents the value. For non-EJSON values, serializes the same way as `JSON.stringify`.",
-        "!type": "fn(val: +EJSON, options?: Object)"
+        "!type": "fn(val: +EJSON, options?: ?)"
       },
       "toJSONValue": {
         "!doc": "Serialize an EJSON-compatible value into its plain JSON representation.",
@@ -314,11 +314,11 @@
       "!doc": "The Meteor namespace",
       "absoluteUrl": {
         "!doc": "Generate an absolute URL pointing to the application. The server reads from the `ROOT_URL` environment variable to determine where it is running. This is taken care of automatically for apps deployed with `meteor deploy`, but must be provided when using `meteor build`.",
-        "!type": "fn(path?: string, options?: Object)"
+        "!type": "fn(path?: string, options?: ?)"
       },
       "apply": {
         "!doc": "Invoke a method passing an array of arguments.",
-        "!type": "fn(name: string, args: [+EJSONable], options?: Object, asyncCallback?: fn())"
+        "!type": "fn(name: string, args: [+EJSONable], options?: ?, asyncCallback?: fn())"
       },
       "call": {
         "!doc": "Invokes a method passing any number of arguments.",
@@ -354,11 +354,11 @@
       },
       "loginWith<ExternalService>": {
         "!doc": "Log the user in using an external service.",
-        "!type": "fn(options?: Object, callback?: fn())"
+        "!type": "fn(options?: ?, callback?: fn())"
       },
       "loginWithPassword": {
         "!doc": "Log the user in with a password.",
-        "!type": "fn(user: Object, password: string, callback?: fn())"
+        "!type": "fn(user: ?, password: string, callback?: fn())"
       },
       "logout": {
         "!doc": "Log the user out.",
@@ -370,7 +370,7 @@
       },
       "methods": {
         "!doc": "Defines functions that can be invoked over the network by clients.",
-        "!type": "fn(methods: Object)"
+        "!type": "fn(methods: ?)"
       },
       "onConnection": {
         "!doc": "Register a callback to be called when a new DDP connection is made to the server.",
@@ -398,7 +398,7 @@
       },
       "settings": {
         "!doc": "`Meteor.settings` contains deployment-specific configuration options. You can initialize settings by passing the `--settings` option (which takes the name of a file containing JSON data) to `meteor run` or `meteor deploy`. When running your server directly (e.g. from a bundle), you instead specify settings by putting the JSON directly into the `METEOR_SETTINGS` environment variable. If you don't provide any settings, `Meteor.settings` will be an empty object.  If the settings object contains a key named `public`, then `Meteor.settings.public` will be available on the client as well as the server.  All other properties of `Meteor.settings` are only defined on the server.",
-        "!type": "Object"
+        "!type": "?"
       },
       "startup": {
         "!doc": "Run code when a client or a server starts.",
@@ -426,33 +426,33 @@
       },
       "wrapAsync": {
         "!doc": "Wrap a function that takes a callback function as its final parameter. On the server, the wrapped function can be used either synchronously (without passing a callback) or asynchronously (when a callback is passed). On the client, a callback is always required; errors will be logged if there is no callback. If a callback is provided, the environment captured when the original function was called will be restored in the callback.",
-        "!type": "fn(func: fn(), context?: Object)"
+        "!type": "fn(func: fn(), context?: ?)"
       }
     },
     "Mongo": {
       "Collection": {
         "!doc": "Constructor for a Collection",
-        "!type": "fn(name: string, options?: Object)",
+        "!type": "fn(name: string, options?: ?)",
         "prototype": {
           "allow": {
             "!doc": "Allow users to write directly to this collection from client code, subject to limitations you define.",
-            "!type": "fn(options: Object)"
+            "!type": "fn(options: ?)"
           },
           "deny": {
             "!doc": "Override `allow` rules.",
-            "!type": "fn(options: Object)"
+            "!type": "fn(options: ?)"
           },
           "find": {
             "!doc": "Find the documents in a collection that match the selector.",
-            "!type": "fn(selector?: +MongoSelector, options?: Object) -> +Mongo.Cursor"
+            "!type": "fn(selector?: +MongoSelector, options?: ?) -> +Mongo.Cursor"
           },
           "findOne": {
             "!doc": "Finds the first document that matches the selector, as ordered by sort and skip options.",
-            "!type": "fn(selector?: +MongoSelector, options?: Object) -> Object"
+            "!type": "fn(selector?: +MongoSelector, options?: ?) -> ?"
           },
           "insert": {
             "!doc": "Insert a document in the collection.  Returns its unique _id.",
-            "!type": "fn(doc: Object, callback?: fn())"
+            "!type": "fn(doc: ?, callback?: fn())"
           },
           "remove": {
             "!doc": "Remove documents from the collection",
@@ -460,11 +460,11 @@
           },
           "update": {
             "!doc": "Modify one or more documents in the collection. Returns the number of affected documents.",
-            "!type": "fn(selector: +MongoSelector, modifier: +MongoModifier, options?: Object, callback?: fn())"
+            "!type": "fn(selector: +MongoSelector, modifier: +MongoModifier, options?: ?, callback?: fn())"
           },
           "upsert": {
             "!doc": "Modify one or more documents in the collection, or insert one if no matching documents were found. Returns an object with keys `numberAffected` (the number of documents modified)  and `insertedId` (the unique _id of the document that was inserted, if any).",
-            "!type": "fn(selector: +MongoSelector, modifier: +MongoModifier, options?: Object, callback?: fn())"
+            "!type": "fn(selector: +MongoSelector, modifier: +MongoModifier, options?: ?, callback?: fn())"
           }
         }
       },
@@ -478,23 +478,23 @@
           },
           "fetch": {
             "!doc": "Return all matching documents as an Array.",
-            "!type": "fn() -> [Object]"
+            "!type": "fn() -> [?]"
           },
           "forEach": {
             "!doc": "Call `callback` once for each matching document, sequentially and synchronously.",
-            "!type": "fn(callback: fn(Object, number), thisArg)"
+            "!type": "fn(callback: fn(?, number), thisArg)"
           },
           "map": {
             "!doc": "Map callback over all matching documents.  Returns an Array.",
-            "!type": "fn(callback: fn(Object, number), thisArg)"
+            "!type": "fn(callback: fn(?, number), thisArg)"
           },
           "observe": {
             "!doc": "Watch a query.  Receive callbacks as the result set changes.",
-            "!type": "fn(callbacks: Object)"
+            "!type": "fn(callbacks: ?)"
           },
           "observeChanges": {
             "!doc": "Watch a query.  Receive callbacks as the result set changes.  Only the differences between the old and new documents are passed to the callbacks.",
-            "!type": "fn(callbacks: Object)"
+            "!type": "fn(callbacks: ?)"
           }
         }
       },
@@ -522,7 +522,7 @@
         },
         "use": {
           "!doc": "Depend on package `packagename`.",
-          "!type": "fn(packageNames: string, architecture?: string, options?: Object)"
+          "!type": "fn(packageNames: string, architecture?: string, options?: ?)"
         },
         "versionsFrom": {
           "!doc": "Use versions of core packages from a release. Unless provided, all packages will default to the versions released along with `meteorRelease`. This will save you from having to figure out the exact versions of the core packages you want to use. For example, if the newest release of meteor is `METEOR@0.9.0` and it includes `jquery@1.0.0`, you can write `api.versionsFrom('METEOR@0.9.0')` in your package, and when you later write `api.use('jquery')`, it will be equivalent to `api.use('jquery@1.0.0')`. You may specify an array of multiple releases, in which case the default value for constraints will be the \"or\" of the versions from each release: `api.versionsFrom(['METEOR@0.9.0', 'METEOR@0.9.5'])` may cause `api.use('jquery')` to be interpreted as `api.use('jquery@1.0.0 || 2.0.0')`.",
@@ -550,11 +550,11 @@
       "prototype": {
         "added": {
           "!doc": "Call inside the publish function.  Informs the subscriber that a document has been added to the record set.",
-          "!type": "fn(collection: string, id: string, fields: Object)"
+          "!type": "fn(collection: string, id: string, fields: ?)"
         },
         "changed": {
           "!doc": "Call inside the publish function.  Informs the subscriber that a document in the record set has been modified.",
-          "!type": "fn(collection: string, id: string, fields: Object)"
+          "!type": "fn(collection: string, id: string, fields: ?)"
         },
         "connection": {
           "!doc": "Access inside the publish function. The incoming [connection](#meteor_onconnection) for this subscription."
@@ -600,7 +600,7 @@
         },
         "helpers": {
           "!doc": "Specify template helpers available to this template.",
-          "!type": "fn(helpers: Object)"
+          "!type": "fn(helpers: ?)"
         },
         "onCreated": {
           "!doc": "Register a function to be called when an instance of this template is created."
@@ -624,7 +624,7 @@
       },
       "dynamic": {
         "!doc": "Choose a template to include dynamically, by name.",
-        "!type": "fn(template: string, data?: Object)"
+        "!type": "fn(template: string, data?: ?)"
       },
       "instance": {
         "!doc": "The [template instance](#template_inst) corresponding to the current template helper, event handler, callback, or autorun.  If there isn't one, `null`.",
@@ -725,18 +725,18 @@
       },
       "config": {
         "!doc": "Set global accounts options.",
-        "!type": "fn(options: Object)"
+        "!type": "fn(options: ?)"
       },
       "createUser": {
         "!doc": "Create a new user.",
-        "!type": "fn(options: Object, callback?: fn())"
+        "!type": "fn(options: ?, callback?: fn())"
       },
       "emailTemplates": {
         "!doc": "Options to customize emails sent from the Accounts system."
       },
       "forgotPassword": {
         "!doc": "Request a forgot password email.",
-        "!type": "fn(options: Object, callback?: fn())"
+        "!type": "fn(options: ?, callback?: fn())"
       },
       "onCreateUser": {
         "!doc": "Customize new user creation.",
@@ -786,7 +786,7 @@
         "!doc": "Accounts UI",
         "config": {
           "!doc": "Configure the behavior of [`{{> loginButtons}}`](#accountsui).",
-          "!type": "fn(options: Object)"
+          "!type": "fn(options: ?)"
         }
       },
       "validateLoginAttempt": {
@@ -806,23 +806,23 @@
       "!doc": "The App configuration object in mobile-config.js",
       "accessRule": {
         "!doc": "Set a new access rule based on origin domain for your app.\nBy default your application has a limited list of servers it can contact.\nUse this method to extend this list.\n\nDefault access rules:\n\n- `tel:*`, `geo:*`, `mailto:*`, `sms:*`, `market:*` are allowed and\n  launch externally (phone app, or an email client on Android)\n- `gap:*`, `cdv:*`, `file:` are allowed (protocols required to access\n  local file-system)\n- `http://meteor.local/*` is allowed (a domain Meteor uses to access\n  app's assets)\n- The domain of the server passed to the build process (or local ip\n  address in the development mode) is used to be able to contact the\n  Meteor app server.\n\nRead more about domain patterns in [Cordova\ndocs](http://cordova.apache.org/docs/en/4.0.0/guide_appdev_whitelist_index.md.html).\n\nStarting with Meteor 1.0.4 access rule for all domains and protocols\n(`<access origin=\"*\"/>`) is no longer set by default due to\n[certain kind of possible\nattacks](http://cordova.apache.org/announcements/2014/08/04/android-351.html).",
-        "!type": "fn(domainRule: string, options?: Object)"
+        "!type": "fn(domainRule: string, options?: ?)"
       },
       "configurePlugin": {
         "!doc": "Set the build-time configuration for a Phonegap plugin.",
-        "!type": "fn(pluginName: string, config: Object)"
+        "!type": "fn(pluginName: string, config: ?)"
       },
       "icons": {
         "!doc": "Set the icons for your mobile app.",
-        "!type": "fn(icons: Object)"
+        "!type": "fn(icons: ?)"
       },
       "info": {
         "!doc": "Set your mobile app's core configuration information.",
-        "!type": "fn(options: Object)"
+        "!type": "fn(options: ?)"
       },
       "launchScreens": {
         "!doc": "Set the launch screen images for your mobile app.",
-        "!type": "fn(launchScreens: Object)"
+        "!type": "fn(launchScreens: ?)"
       },
       "setPreference": {
         "!doc": "Add a preference for your build as described in the\n[PhoneGap documentation](http://docs.phonegap.com/en/3.5.0/config_ref_index.md.html#The%20config.xml%20File_global_preferences).",
@@ -844,7 +844,7 @@
       "!doc": "The Cordova object in package.js.",
       "depends": {
         "!doc": "Specify which [Cordova / PhoneGap](http://cordova.apache.org/)\nplugins your Meteor package depends on.\n\nPlugins are installed from\n[plugins.cordova.io](http://plugins.cordova.io/), so the plugins and\nversions specified must exist there. Alternatively, the version\ncan be replaced with a GitHub tarball URL as described in the\n[Cordova / PhoneGap](https://github.com/meteor/meteor/wiki/Meteor-Cordova-Phonegap-integration#meteor-packages-with-cordovaphonegap-dependencies)\npage of the Meteor wiki on GitHub.",
-        "!type": "fn(dependencies: Object)"
+        "!type": "fn(dependencies: ?)"
       }
     },
     "DDP": {
@@ -857,34 +857,34 @@
     "Email": {
       "send": {
         "!doc": "Send an email. Throws an `Error` on failure to contact mail server\nor if mail server returns an error. All fields should match\n[RFC5322](http://tools.ietf.org/html/rfc5322) specification.",
-        "!type": "fn(options: Object)"
+        "!type": "fn(options: ?)"
       }
     },
     "HTTP": {
       "call": {
         "!doc": "Perform an outbound HTTP request.",
-        "!type": "fn(method: string, url: string, options?: Object, asyncCallback?: fn())"
+        "!type": "fn(method: string, url: string, options?: ?, asyncCallback?: fn())"
       },
       "del": {
         "!doc": "Send an HTTP `DELETE` request. Equivalent to calling [`HTTP.call`](#http_call) with \"DELETE\" as the first argument. (Named `del` to avoid conflic with the Javascript keyword `delete`)",
-        "!type": "fn(url: string, callOptions?: Object, asyncCallback?: fn())"
+        "!type": "fn(url: string, callOptions?: ?, asyncCallback?: fn())"
       },
       "get": {
         "!doc": "Send an HTTP `GET` request. Equivalent to calling [`HTTP.call`](#http_call) with \"GET\" as the first argument.",
-        "!type": "fn(url: string, callOptions?: Object, asyncCallback?: fn())"
+        "!type": "fn(url: string, callOptions?: ?, asyncCallback?: fn())"
       },
       "post": {
         "!doc": "Send an HTTP `POST` request. Equivalent to calling [`HTTP.call`](#http_call) with \"POST\" as the first argument.",
-        "!type": "fn(url: string, callOptions?: Object, asyncCallback?: fn())"
+        "!type": "fn(url: string, callOptions?: ?, asyncCallback?: fn())"
       },
       "put": {
         "!doc": "Send an HTTP `PUT` request. Equivalent to calling [`HTTP.call`](#http_call) with \"PUT\" as the first argument.",
-        "!type": "fn(url: string, callOptions?: Object, asyncCallback?: fn())"
+        "!type": "fn(url: string, callOptions?: ?, asyncCallback?: fn())"
       }
     },
     "MethodInvocation": {
       "!doc": "The state for a single invocation of a method, referenced by this\ninside a method definition.",
-      "!type": "fn(options: Object)",
+      "!type": "fn(options: ?)",
       "prototype": {
         "connection": {
           "!doc": "Access inside a method invocation. The [connection](#meteor_onconnection) that this method was received on. `null` if the method is not associated with a connection, eg. a server initiated method call."
@@ -910,7 +910,7 @@
       "!doc": "The Npm object in package.js and package source files.",
       "depends": {
         "!doc": "Specify which [NPM](https://www.npmjs.org/) packages\nyour Meteor package depends on.",
-        "!type": "fn(dependencies: Object)"
+        "!type": "fn(dependencies: ?)"
       },
       "require": {
         "!doc": "Require a package that was specified using\n`Npm.depends()`.",
@@ -921,7 +921,7 @@
       "!doc": "The Package object in package.js",
       "describe": {
         "!doc": "Provide basic package information.",
-        "!type": "fn(options: Object)"
+        "!type": "fn(options: ?)"
       },
       "onTest": {
         "!doc": "Define dependencies and expose package methods for unit tests.",
@@ -933,7 +933,7 @@
       },
       "registerBuildPlugin": {
         "!doc": "Define a build plugin. A build plugin extends the build\nprocess for apps and packages that use this package. For example,\nthe `coffeescript` package uses a build plugin to compile CoffeeScript\nsource files into JavaScript.",
-        "!type": "fn(options?: Object)"
+        "!type": "fn(options?: ?)"
       }
     },
     "Plugin": {

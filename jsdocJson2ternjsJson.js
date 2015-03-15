@@ -153,7 +153,7 @@ function processParamType (type) {
   else if (type === 'Boolean')
     type = 'bool';
   else if (type === 'Object')
-    type = 'Object';
+    type = '?';
   else if (type === 'function')
     type = 'fn()';
   // XXX do something with this?
