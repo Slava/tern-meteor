@@ -48,12 +48,23 @@ var set = function (def, o) {
 var attach = {};
 attach.namespace = function (namespace) {
   var o = {};
+  // try to discover declarations first
+  _.each(namespace, function (def, symbol) {
+    if (def.kind === 'typedef' || def.kind === 'class')
+      attach[def.kind](def);
+  });
   _.each(namespace, function (def, symbol) {
     if (dealWithMisc(def, symbol, o)) return;
+    if (def.kind === 'typedef' || def.kind === 'class') return;
     attach[def.kind](def);
   });
   if (namespace !== jsdoc)
     set(namespace, o);
+};
+
+var typedefs = {};
+attach.typedef = function (td) {
+  typedefs[td.name] = td;
 };
 
 attach.member = function (member) {
@@ -69,7 +80,13 @@ attach.member = function (member) {
   });
   set(member, o);
 };
+
+var classes = {};
 attach['class'] = attach['function'] = function (fun) {
+  // set all classes to a table
+  if (fun.kind === 'class')
+    classes[fun.name] = fun;
+
   var o = {};
   var params = [];
   var returns = null;
@@ -111,6 +128,15 @@ function processParamName (param) {
   return r;
 };
 
+function embedTypeDef (td) {
+  if (td.type.names[0] !== 'function')
+    throw new Error('This script doesnt know how to embed non-callback typedefs yet');
+  // XXX doesn't put the return value
+  return 'fn(' + _.map(td.params, function (p) {
+    return processParamType(p.type.names[0])
+  }).join(', ') + ')';
+}
+
 function processParamType (type) {
   if (! type || type === 'Any')
     return null;
@@ -129,10 +155,14 @@ function processParamType (type) {
   else if (type === 'function')
     type = 'fn()';
   // XXX do something with this?
-  else if (_.contains(['Error', 'Buffer', 'Tracker.Computation', 'EJSON', 'EJSONable', 'JSONCompatible', 'MongoSelector', 'MongoModifier', 'Template', 'DOMNode', 'DOMElement', 'Blaze.View', 'EventMap', 'MatchPattern', 'Mongo.Collection', 'Mongo.Cursor'], type))
-    type = type;
+  else if (_.contains(['Error', 'Buffer', 'Tracker.Computation', 'EJSON', 'EJSONable', 'JSONCompatible', 'MongoSelector', 'MongoModifier', 'Template', 'DOMNode', 'DOMElement', 'Blaze.View', 'EventMap', 'MatchPattern', 'Mongo.Collection', 'Mongo.Cursor', 'SubscriptionHandle', 'Blaze.TemplateInstance'], type))
+    type = "+" + type;
   else if (type === 'Integer')
     type = 'number';
+  else if (classes[type])
+    type = "+" + type;
+  else if (typedefs[type])
+    type = embedTypeDef(typedefs[type]);
   else
     throw new Error('Unknown type: ' + type);
 
