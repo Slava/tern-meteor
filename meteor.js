@@ -474,7 +474,7 @@
         "prototype": {
           "count": {
             "!doc": "Returns the number of documents that match a query.",
-            "!type": "fn()"
+            "!type": "fn() -> number"
           },
           "fetch": {
             "!doc": "Return all matching documents as an Array.",
@@ -482,11 +482,11 @@
           },
           "forEach": {
             "!doc": "Call `callback` once for each matching document, sequentially and synchronously.",
-            "!type": "fn(callback: fn(), thisArg)"
+            "!type": "fn(callback: fn(Object, number), thisArg)"
           },
           "map": {
             "!doc": "Map callback over all matching documents.  Returns an Array.",
-            "!type": "fn(callback: fn(), thisArg)"
+            "!type": "fn(callback: fn(Object, number), thisArg)"
           },
           "observe": {
             "!doc": "Watch a query.  Receive callbacks as the result set changes.",
