@@ -148,8 +148,10 @@ function processParamType (type) {
     isArray = true;
   }
 
-  if (_.contains(['String', 'Number', 'Boolean'], type))
+  if (_.contains(['String', 'Number'], type))
     type = type.toLowerCase();
+  else if (type === 'Boolean')
+    type = 'bool';
   else if (type === 'Object')
     type = 'Object';
   else if (type === 'function')

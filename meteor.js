@@ -114,7 +114,7 @@
           },
           "subscriptionsReady": {
             "!doc": "A reactive function that returns true when all of the subscriptions\ncalled with [this.subscribe](#TemplateInstance-subscribe) are ready.",
-            "!type": "fn() -> boolean"
+            "!type": "fn() -> bool"
           },
           "view": {
             "!doc": "The [View](#blaze_view) object for this invocation of the template.",
@@ -338,15 +338,15 @@
       },
       "isClient": {
         "!doc": "Boolean variable.  True if running in client environment.",
-        "!type": "boolean"
+        "!type": "bool"
       },
       "isCordova": {
         "!doc": "Boolean variable.  True if running in a Cordova mobile environment.",
-        "!type": "boolean"
+        "!type": "bool"
       },
       "isServer": {
         "!doc": "Boolean variable.  True if running in server environment.",
-        "!type": "boolean"
+        "!type": "bool"
       },
       "loggingIn": {
         "!doc": "True if a login method (such as `Meteor.loginWithPassword`, `Meteor.loginWithFacebook`, or `Accounts.createUser`) is currently in progress. A reactive data source.",
@@ -650,11 +650,11 @@
           },
           "depend": {
             "!doc": "Declares that the current computation (or `fromComputation` if given) depends on `dependency`.  The computation will be invalidated the next time `dependency` changes.\n\nIf there is no current computation and `depend()` is called with no arguments, it does nothing and returns false.\n\nReturns true if the computation is a new dependent of `dependency` rather than an existing one.",
-            "!type": "fn(fromComputation?: +Tracker.Computation) -> boolean"
+            "!type": "fn(fromComputation?: +Tracker.Computation) -> bool"
           },
           "hasDependents": {
             "!doc": "True if this Dependency has one or more dependent Computations, which would be invalidated if this Dependency were to change.",
-            "!type": "fn() -> boolean"
+            "!type": "fn() -> bool"
           }
         }
       },
@@ -665,7 +665,7 @@
         "prototype": {
           "firstRun": {
             "!doc": "True during the initial run of the computation at the time `Tracker.autorun` is called, and false on subsequent reruns and at other times.",
-            "!type": "boolean"
+            "!type": "bool"
           },
           "invalidate": {
             "!doc": "Invalidates this computation so that it will be rerun.",
@@ -673,7 +673,7 @@
           },
           "invalidated": {
             "!doc": "True if this computation has been invalidated (and not yet rerun), or if it has been stopped.",
-            "!type": "boolean"
+            "!type": "bool"
           },
           "onInvalidate": {
             "!doc": "Registers `callback` to run when this computation is next invalidated, or runs it immediately if the computation is already invalidated.  The callback is run exactly once and not upon future invalidations unless `onInvalidate` is called again after the computation becomes valid again.",
@@ -690,7 +690,7 @@
       },
       "active": {
         "!doc": "True if there is a current computation, meaning that dependencies on reactive data sources will be tracked and potentially cause the current computation to be rerun.",
-        "!type": "boolean"
+        "!type": "bool"
       },
       "afterFlush": {
         "!doc": "Schedules a function to be called during the next flush, or later in the current flush if one is in progress, after all invalidated computations have been rerun.  The function will be run once and not on subsequent flushes unless `afterFlush` is called again.",
@@ -891,7 +891,7 @@
         },
         "isSimulation": {
           "!doc": "Access inside a method invocation.  Boolean value, true if this invocation is a stub.",
-          "!type": "boolean"
+          "!type": "bool"
         },
         "setUserId": {
           "!doc": "Set the logged in user.",
