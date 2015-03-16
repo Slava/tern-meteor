@@ -31,6 +31,32 @@ var specialFunctionReturns = {
 
 var commonSkips = ['longname', 'kind', 'name', 'scope', 'memberof', 'options', 'instancename'];
 
+var nameToId = eval(fs.readFileSync('/Users/slava/work/meteor/docs/client/full-api/nameToId.js', 'utf8'));
+var getDocsUrl = function (name) {
+  function h () {
+    var special = {
+      Meteor: 'core',
+      Match: 'check',
+      Mongo: 'mongo_collections',
+      Session: 'session',
+      Accounts: 'accounts_api',
+      Template: 'templates_api',
+      Blaze: 'blaze',
+      Tracker: 'tracker',
+      EJSON: 'ejson',
+      ReactiveVar: 'reactivevar',
+      HTTP: 'http',
+      Email: 'email',
+      Assets: 'assets',
+      Package: 'packagejs',
+      App: 'mobileconfigjs'
+    };
+    return special[name] || nameToId[name] || name.replace(/[.#]/g, "-");
+  }
+
+  return 'https://docs.meteor.com/#/full/' + h();
+};
+
 var set = function (def, o) {
   var path = def.longname;
   path = path.replace('#', '.prototype.');
@@ -42,7 +68,9 @@ var set = function (def, o) {
     t = t[prop];
   });
   var lastProp = path[path.length - 1];
-  t[lastProp] = _.extend({}, t[lastProp], o);
+  t[lastProp] = _.extend({}, t[lastProp], o, {
+    '!url': getDocsUrl(def.longname)
+  });
 };
 
 var attach = {};
