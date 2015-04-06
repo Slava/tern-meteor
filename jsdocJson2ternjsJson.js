@@ -31,7 +31,7 @@ var specialFunctionReturns = {
 
 var commonSkips = ['longname', 'kind', 'name', 'scope', 'memberof', 'options', 'instancename'];
 
-var nameToId = eval(fs.readFileSync('/Users/slava/work/meteor/docs/client/full-api/nameToId.js', 'utf8'));
+var nameToId = eval(fs.readFileSync('/Users/imslavko/work/meteor/docs/client/full-api/nameToId.js', 'utf8'));
 var getDocsUrl = function (name) {
   function h () {
     var special = {
@@ -92,7 +92,7 @@ attach.namespace = function (namespace) {
 
 var typedefs = {};
 attach.typedef = function (td) {
-  typedefs[td.name] = td;
+  typedefs[td.longname] = td;
 };
 
 attach.member = function (member) {
@@ -210,6 +210,8 @@ function dealWithMisc (def, symbol, o) {
     o['!doc'] = def + '\n' + (o['!doc'] || '');
     return true;
   }
+  if (symbol === 'filepath' || symbol === 'lineno')
+    return true;
 
   if (_.contains(commonSkips, symbol))
     return true;
