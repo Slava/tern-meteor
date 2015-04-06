@@ -207,6 +207,7 @@ function dealWithMisc (def, symbol, o) {
     return true;
   }
   if (symbol === 'locus') {
+    o['!locus'] = def;
     o['!doc'] = def + '\n' + (o['!doc'] || '');
     return true;
   }
