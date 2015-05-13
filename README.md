@@ -77,7 +77,7 @@ You check out my Vim setup which is already optimized for Meteor development:
         "jquery",
         "underscore"
       ],
-      "loadEagerly": [ "*.js", "*/*.js", "*/*/*.js", "*/*/*/*.js" ],
+      "loadEagerly": [ "**/*.js" ],
       "dontLoad": [ ".meteor" ],
       "plugins": {
         "meteor": {}
