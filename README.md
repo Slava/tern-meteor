@@ -17,18 +17,23 @@ Gif Demos
 ---
 
 Types based auto-completion:
+
 ![tern-vim-completion.gif](/demo-gifs/tern-vim-completion.gif)
 
 Look up documentation:
+
 ![tern-vim-doc.gif](/demo-gifs/tern-vim-doc.gif)
 
 Jump to definition:
+
 ![tern-vim-jump-to-def.gif](/demo-gifs/tern-vim-jump-to-def.gif)
 
 Jump to references:
+
 ![tern-vim-refs.gif](/demo-gifs/tern-vim-refs.gif)
 
 Get types information (on the bottom):
+
 ![tern-vim-types.gif](/demo-gifs/tern-vim-types.gif)
 
 Supported features specific to Meteor
