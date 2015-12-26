@@ -1,0 +1,20 @@
+{
+  "name": "tern-meteor",
+  "license": "MIT",
+  "version": "0.1.0",
+  "main": "meteor.js",
+  "author": "Slava Kim <slava@meteor.com>",
+  "description": "This is a plugin for TernJS bringing support for Meteor JavaScript Framework.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Slava/tern-meteor.git"
+  },
+  "dependencies": {
+    "tern": "^0.7.0",
+    "acorn": "~0.5.0"
+  },  
+  "keywords": [
+    "tern",
+    "meteor"
+  ]
+}
